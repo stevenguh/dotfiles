@@ -15,6 +15,9 @@ zplugin ice wait lucid
 zplugin snippet OMZ::lib/key-bindings.zsh
 
 zplugin ice wait lucid
+zplugin snippet OMZ::lib/clipboard.zsh
+
+zplugin ice wait lucid
 zplugin snippet OMZ::lib/git.zsh
 
 zplugin ice wait lucid
