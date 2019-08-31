@@ -11,20 +11,15 @@ autoload -Uz _zplugin
 ############
 # Plug-ins # 
 ############
-zplugin ice wait lucid
 zplugin snippet OMZ::lib/key-bindings.zsh
-
-zplugin ice wait lucid
 zplugin snippet OMZ::lib/clipboard.zsh
-
-zplugin ice wait lucid
 zplugin snippet OMZ::lib/git.zsh
+zplugin snippet OMZ::lib/completion.zsh
 
 zplugin ice wait lucid
 zplugin light zdharma/history-search-multi-word
 
 zplugin ice wait"0" blockf
-zstyle ':completion:*' menu select
 zplugin light zsh-users/zsh-completions
 
 zplugin ice wait"0" atload"_zsh_autosuggest_start"
