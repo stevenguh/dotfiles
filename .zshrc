@@ -28,6 +28,16 @@ zplugin light zsh-users/zsh-autosuggestions
 zplugin ice wait"0" atinit"zpcompinit; zpcdreplay"
 zplugin light zdharma/fast-syntax-highlighting
 
-zplugin light romkatv/powerlevel10k
+zplugin ice depth=1; zplugin light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ${HOME}/.p10k.zsh ]] && source ${HOME}/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+# Active conda
+source ~/anaconda3/bin/activate
+
+# Alias vs code to avoid duplicate icon on mac
+# https://github.com/microsoft/vscode/issues/60579
+alias code='open -b com.microsoft.VSCode "$@"'
