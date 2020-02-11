@@ -1,6 +1,6 @@
 # Install `zplugin` if not installed
 if [ ! -d "${HOME}/.zplugin" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 
 # Load `zplugin`
