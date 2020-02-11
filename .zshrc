@@ -1,34 +1,34 @@
-# Install `zplugin` if not installed
-if [ ! -d "${HOME}/.zplugin" ]; then
+# Install `zinit` if not installed
+if [ ! -d "${HOME}/.zinit" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
 
-# Load `zplugin`
-source "${HOME}/.zplugin/bin/zplugin.zsh"
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
+# Load `zinit`
+source "${HOME}/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 ############
 # Plug-ins # 
 ############
-zplugin snippet OMZ::lib/key-bindings.zsh
-zplugin snippet OMZ::lib/clipboard.zsh
-zplugin snippet OMZ::lib/git.zsh
-zplugin snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
+zinit snippet OMZ::lib/clipboard.zsh
+zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZ::lib/completion.zsh
 
-zplugin ice wait lucid
-zplugin light zdharma/history-search-multi-word
+zinit ice wait lucid
+zinit light zdharma/history-search-multi-word
 
-zplugin ice wait"0" blockf
-zplugin light zsh-users/zsh-completions
+zinit ice wait"0" blockf
+zinit light zsh-users/zsh-completions
 
-zplugin ice wait"0" atload"_zsh_autosuggest_start"
-zplugin light zsh-users/zsh-autosuggestions
+zinit ice wait"0" atload"_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
 
-zplugin ice wait"0" atinit"zpcompinit; zpcdreplay"
-zplugin light zdharma/fast-syntax-highlighting
+zinit ice wait"0" atinit"zpcompinit; zpcdreplay"
+zinit light zdharma/fast-syntax-highlighting
 
-zplugin ice depth=1; zplugin light romkatv/powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ${HOME}/.p10k.zsh ]] && source ${HOME}/.p10k.zsh
 
