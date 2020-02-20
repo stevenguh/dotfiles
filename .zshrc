@@ -44,4 +44,10 @@ source ${HOME}/anaconda3/bin/activate
 
 # Alias vs code to avoid duplicate icon on mac
 # https://github.com/microsoft/vscode/issues/60579
-alias code='open -b com.microsoft.VSCode "$@"'
+code() { 
+    if [ -t 1 ] && [ -t 0 ]; then 
+        open -a Visual\ Studio\ Code.app "$@"
+    else 
+        open -a Visual\ Studio\ Code.app -f
+    fi
+}
