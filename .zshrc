@@ -18,10 +18,9 @@ autoload -Uz _zinit
 ############
 # Plug-ins # 
 ############
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/clipboard.zsh
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::lib/completion.zsh
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+# To customize prompt, run `p10k configure` or edit ${HOME}/.p10k.zsh.
+[[ -f ${HOME}/.p10k.zsh ]] && source ${HOME}/.p10k.zsh
 
 zinit ice wait lucid
 zinit light zdharma/history-search-multi-word
@@ -35,19 +34,44 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait"0" atinit"zpcompinit; zpcdreplay"
 zinit light zdharma/fast-syntax-highlighting
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-# To customize prompt, run `p10k configure` or edit ${HOME}/.p10k.zsh.
-[[ -f ${HOME}/.p10k.zsh ]] && source ${HOME}/.p10k.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
+zinit snippet OMZ::lib/clipboard.zsh
+zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZ::lib/completion.zsh
+
+mcd() { mkdir -p $1; cd $1 }
+cdl() { cd $1; ls}
+alias ll='ls -l'
+update() {
+  # Check if cmd exists
+  # https://stackoverflow.com/a/677212/2563765
+  if command -v zinit >/dev/null 2>&1; then
+    zinit update
+  fi
+  if command -v brew >/dev/null 2>&1; then
+    brew upgrade
+    brew update
+  fi
+  if command -v npm >/dev/null 2>&1; then
+    npm install -g npm
+  fi
+}
+# Alias vs code to avoid duplicate icon on mac
+# https://github.com/microsoft/vscode/issues/60579
+#code() { 
+#    if [ -t 1 ] && [ -t 0 ]; then 
+#        open -a Visual\ Studio\ Code.app "$@"
+#    else 
+#        open -a Visual\ Studio\ Code.app -f
+#    fi
+#}
 
 # Active conda
 source ${HOME}/anaconda3/bin/activate
 
-# Alias vs code to avoid duplicate icon on mac
-# https://github.com/microsoft/vscode/issues/60579
-code() { 
-    if [ -t 1 ] && [ -t 0 ]; then 
-        open -a Visual\ Studio\ Code.app "$@"
-    else 
-        open -a Visual\ Studio\ Code.app -f
-    fi
-}
+# Add andorid sdk for expo
+export ANDROID_SDK=/Users/stevenguh/Library/Android/sdk
+export PATH=/Users/stevenguh/Library/Android/sdk/platform-tools:$PATH
+
+# Add flutter
+export PATH=/Users/stevenguh/dev/flutter/bin:$PATH
