@@ -43,7 +43,7 @@ mcd() { mkdir -p $1; cd $1 }
 cdl() { cd $1; ls}
 alias ll='ls -l'
 update() {
-  # Check if cmd exists
+  # Check if the cmd exists
   # https://stackoverflow.com/a/677212/2563765
   if command -v zinit >/dev/null 2>&1; then
     zinit update
@@ -51,11 +51,13 @@ update() {
   if command -v brew >/dev/null 2>&1; then
     brew upgrade
     brew update
+    brew cask upgrade
   fi
   if command -v npm >/dev/null 2>&1; then
     npm install -g npm
   fi
 }
+
 # Alias vs code to avoid duplicate icon on mac
 # https://github.com/microsoft/vscode/issues/60579
 #code() { 
