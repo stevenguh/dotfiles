@@ -18,21 +18,17 @@ autoload -Uz _zinit
 ############
 # Plug-ins # 
 ############
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-# To customize prompt, run `p10k configure` or edit ${HOME}/.p10k.zsh.
-[[ -f ${HOME}/.p10k.zsh ]] && source ${HOME}/.p10k.zsh
+zinit atload'!source ~/.p10k.zsh' lucid nocd for \
+    romkatv/powerlevel10k
 
-zinit ice wait lucid
-zinit light zdharma/history-search-multi-word
-
-zinit ice wait"0" blockf
-zinit light zsh-users/zsh-completions
-
-zinit ice wait"0" atload"_zsh_autosuggest_start"
-zinit light zsh-users/zsh-autosuggestions
-
-zinit ice wait"0" atinit"zpcompinit; zpcdreplay"
-zinit light zdharma/fast-syntax-highlighting
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma/fast-syntax-highlighting \
+    zdharma/history-search-multi-word \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
 
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/clipboard.zsh
