@@ -35,9 +35,10 @@ zinit snippet OMZ::lib/clipboard.zsh
 zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/completion.zsh
 
-mcd() { mkdir -p $1; cd $1 }
-cdl() { cd $1; ls}
-alias ll='ls -l'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
 update() {
   # Check if the cmd exists
   # https://stackoverflow.com/a/677212/2563765
