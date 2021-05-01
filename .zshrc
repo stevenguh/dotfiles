@@ -46,9 +46,9 @@ update() {
     zinit update
   fi
   if command -v brew >/dev/null 2>&1; then
-    brew upgrade
     brew update
-    brew cask upgrade
+    brew outdated
+    brew upgrade
   fi
   if command -v npm >/dev/null 2>&1; then
     npm install -g npm
@@ -56,11 +56,17 @@ update() {
 }
 
 # Active conda
-source ${HOME}/anaconda3/bin/activate
+if [ -f "${HOME}/anaconda3/bin/activate" ]; then
+  source ${HOME}/anaconda3/bin/activate
+fi
 
 # Add andorid sdk for expo
-export ANDROID_SDK=/Users/stevenguh/Library/Android/sdk
-export PATH=/Users/stevenguh/Library/Android/sdk/platform-tools:$PATH
+if [ -d "${HOME}/Library/Android/sdk" ]; then
+  export ANDROID_SDK=${HOME}/Library/Android/sdk
+  export PATH=${HOME}/Library/Android/sdk/platform-tools:$PATH
+fi
 
 # Add flutter
-export PATH=/Users/stevenguh/dev/flutter/bin:$PATH
+if [ -d "${HOME}/dev/flutter/bin" ]; then
+  export PATH=${HOME}/dev/flutter/bin:$PATH
+fi
