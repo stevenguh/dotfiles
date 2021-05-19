@@ -35,6 +35,13 @@ zinit snippet OMZ::lib/clipboard.zsh
 zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/completion.zsh
 
+# Preverse history
+# https://unix.stackexchange.com/questions/389881/history-isnt-preserved-in-zsh
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=1000
+setopt APPEND_HISTORY
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
