@@ -21,19 +21,43 @@ autoload -Uz _zinit
 zinit atload'!source ~/.p10k.zsh' lucid nocd for \
     romkatv/powerlevel10k
 
+# fzf
+zinit ice from"gh-r" as"command"
+zinit light junegunn/fzf
+# fzf bynary and tmux helper script
+zinit ice lucid wait as"command" id-as"junegunn/fzf-tmux" pick"bin/fzf-tmux"
+zinit light junegunn/fzf
+# Bind multiple widgets using fzf
+zinit ice lucid wait multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
+zinit light junegunn/fzf
+
+# fzf-tab needs to be loaded after compinit, but before plugins
+# which will wrap widgets, such as zsh-autosuggestions or fast-syntax-highlighting!
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    Aloxaf/fzf-tab \
     zdharma/fast-syntax-highlighting \
-    zdharma/history-search-multi-word \
  blockf \
     zsh-users/zsh-completions \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/clipboard.zsh
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::lib/completion.zsh
+zinit wait lucid for \
+    Tarrasch/zsh-bd \
+    OMZ::lib/key-bindings.zsh \
+    OMZ::lib/clipboard.zsh \
+    OMZ::lib/git.zsh \
+    OMZ::lib/completion.zsh \
+    OMZ::lib/directories.zsh
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
 #################
 # Shell history #
@@ -55,9 +79,41 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+###########
+# Aliases #
+###########
+alias shutdown='sudo shutdown now'
+alias restart='sudo reboot'
+alias suspend='sudo pm-suspend'
+
+alias grep="grep -n --color"
+alias ls="ls --color -l -h" 
+
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -i'
+
+# git
+alias ga='git add'
+alias gb='git branch'
+alias gbr='git branch -r'
+alias gc='git commit'
+alias gcln='git branch --merged | egrep -v "(^\*|master|main)" | xargs git branch -d'
+alias gco='git checkout'
+alias gd='git diff'
+alias gl='git log'
+alias glo='git log --pretty="oneline"'
+alias glol='git log --graph --oneline --decorate'
+alias gp='git push'
+alias gpl='git pull'
+alias gplo='git pull origin'
+alias gpo='git push origin'
+alias gr='git remote'
+alias grs='git remote show'
+alias gs='git status'
+alias gsh='git show'
+alias gtd='git tag --delete'
+alias gtdr='git tag --delete origin'
 
 update() {
   # Check if the cmd exists
