@@ -21,6 +21,10 @@ autoload -Uz _zinit
 zinit atload'!source ~/.p10k.zsh' lucid nocd for \
     romkatv/powerlevel10k
 
+# Annex
+zinit lucid light-mode for \
+    zinit-zsh/z-a-patch-dl
+
 # OMZSH
 zinit wait lucid light-mode for \
     OMZ::lib/key-bindings.zsh \
@@ -29,23 +33,29 @@ zinit wait lucid light-mode for \
     OMZ::lib/completion.zsh \
     OMZ::lib/directories.zsh
 
+# Binary
 zinit lucid wait light-mode as"program" from"gh-r" for \
-    mv"ripgrep* -> rg" pick"rg/rg" @BurntSushi/ripgrep \
-    \
-    atclone"cp -vf bat*/autocomplete/bat.zsh _bat" \
+    mv"ripgrep* -> rg" \
+    pick"rg/rg" \
+      @BurntSushi/ripgrep \
+    atclone"cp -vf bat/autocomplete/bat.zsh _bat" \
     atpull"%atclone" \
     mv"bat* -> bat" pick"bat/bat" \
-    @sharkdp/bat \
-    \
+      @sharkdp/bat \
     atclone"cp -vf completions/exa.zsh _exa" \
     atpull"%atclone" \
     mv"bin/exa* -> exa" \
-    @ogham/exa
+      @ogham/exa
 
 # Fzf 
 zinit lucid wait light-mode as"program" for \
-    from"gh-r" id-as"junegunn/fzf-tmux-binary" junegunn/fzf \
-    pick"bin/fzf-tmux" multisrc"shell/*.zsh" junegunn/fzf \
+    from"gh-r" \
+    id-as"junegunn/fzf-tmux-binary" \
+    dl"https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf" \
+      @junegunn/fzf \
+    pick"bin/fzf-tmux" \
+    multisrc"shell/*.zsh" \
+      @junegunn/fzf \
 
 zinit wait lucid light-mode for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
@@ -59,7 +69,9 @@ zinit wait lucid light-mode for \
 zinit wait lucid light-mode for \
     Tarrasch/zsh-bd \
 
-# fzf-tab styles
+##################
+# fzf-tab styles #
+##################
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
