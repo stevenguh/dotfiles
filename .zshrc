@@ -21,19 +21,25 @@ autoload -Uz _zinit
 zinit atload'!source ~/.p10k.zsh' lucid nocd for \
     romkatv/powerlevel10k
 
-# fzf
-zinit ice from"gh-r" as"command"
-zinit light junegunn/fzf
-# fzf bynary and tmux helper script
-zinit ice lucid wait as"command" id-as"junegunn/fzf-tmux" pick"bin/fzf-tmux"
-zinit light junegunn/fzf
-# Bind multiple widgets using fzf
-zinit ice lucid wait multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
-zinit light junegunn/fzf
+# OMZSH
+zinit wait lucid light-mode for \
+    OMZ::lib/key-bindings.zsh \
+    OMZ::lib/clipboard.zsh \
+    OMZ::lib/git.zsh \
+    OMZ::lib/completion.zsh \
+    OMZ::lib/directories.zsh
 
-# fzf-tab needs to be loaded after compinit, but before plugins
-# which will wrap widgets, such as zsh-autosuggestions or fast-syntax-highlighting!
-zinit wait lucid for \
+zinit lucid wait light-mode as"program" from"gh-r" for \
+    mv"ripgrep* -> rg" pick"rg/rg" @BurntSushi/ripgrep \
+    mv"bat* -> bat" pick"bat/bat" @sharkdp/bat \
+    mv"bin/exa* -> exa" @ogham/exa
+
+# Fzf 
+zinit lucid wait light-mode as"program" for \
+    from"gh-r" id-as"junegunn/fzf-tmux-binary" junegunn/fzf \
+    pick"bin/fzf-tmux" multisrc"shell/*.zsh" junegunn/fzf \
+
+zinit wait lucid light-mode for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
     Aloxaf/fzf-tab \
     zdharma/fast-syntax-highlighting \
@@ -42,13 +48,8 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-zinit wait lucid for \
+zinit wait lucid light-mode for \
     Tarrasch/zsh-bd \
-    OMZ::lib/key-bindings.zsh \
-    OMZ::lib/clipboard.zsh \
-    OMZ::lib/git.zsh \
-    OMZ::lib/completion.zsh \
-    OMZ::lib/directories.zsh
 
 # fzf-tab styles
 # disable sort when completing `git checkout`
@@ -88,7 +89,7 @@ alias restart='sudo reboot'
 alias suspend='sudo pm-suspend'
 
 alias grep="grep -n --color"
-alias ls="ls --color -l -h" 
+alias ls="ls -h" 
 
 alias cp='cp -iv'
 alias mv='mv -iv'
