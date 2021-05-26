@@ -31,8 +31,16 @@ zinit wait lucid light-mode for \
 
 zinit lucid wait light-mode as"program" from"gh-r" for \
     mv"ripgrep* -> rg" pick"rg/rg" @BurntSushi/ripgrep \
-    mv"bat* -> bat" pick"bat/bat" @sharkdp/bat \
-    mv"bin/exa* -> exa" @ogham/exa
+    \
+    atclone"cp -vf bat*/autocomplete/bat.zsh _bat" \
+    atpull"%atclone" \
+    mv"bat* -> bat" pick"bat/bat" \
+    @sharkdp/bat \
+    \
+    atclone"cp -vf completions/exa.zsh _exa" \
+    atpull"%atclone" \
+    mv"bin/exa* -> exa" \
+    @ogham/exa
 
 # Fzf 
 zinit lucid wait light-mode as"program" for \
