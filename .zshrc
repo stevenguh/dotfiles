@@ -7,7 +7,7 @@ fi
 
 # Install `zinit` if not installed
 if [ ! -d "${HOME}/.zinit" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/z-shell/zinit/main/doc/install.sh)"
 fi
 
 # Load `zinit`
@@ -23,7 +23,7 @@ zinit atload'!source ~/.p10k.zsh' lucid nocd for \
 
 # Annex
 zinit lucid light-mode for \
-    zinit-zsh/z-a-patch-dl
+    z-shell/z-a-patch-dl
 
 # OMZSH
 zinit wait lucid light-mode for \
@@ -60,7 +60,7 @@ zinit lucid wait light-mode as"program" for \
 zinit wait lucid light-mode for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
     Aloxaf/fzf-tab \
-    zdharma/fast-syntax-highlighting \
+    z-shell/fast-syntax-highlighting \
  blockf \
     zsh-users/zsh-completions \
  atload"!_zsh_autosuggest_start" \
