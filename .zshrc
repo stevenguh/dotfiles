@@ -1,170 +1,94 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ${HOME}/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Personal Zsh configuration file. It is strongly recommended to keep all
+# shell customization and configuration (including exported environment
+# variables such as PATH) in this file or in files sourced from it.
+#
+# Documentation: https://github.com/romkatv/zsh4humans/blob/v5/README.md.
 
-# Install `zinit` if not installed
-if [ ! -d "${HOME}/.zinit" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/z-shell/zinit/main/doc/install.sh)"
-fi
+# Periodic auto-update on Zsh startup: 'ask' or 'no'.
+# You can manually run `z4h update` to update everything.
+zstyle ':z4h:' auto-update      'no'
+# Ask whether to auto-update this often; has no effect if auto-update is 'no'.
+zstyle ':z4h:' auto-update-days '28'
 
-# Load `zinit`
-source "${HOME}/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+# Don't start tmux.
+zstyle ':z4h:' start-tmux       no
 
-############
-# Plug-ins # 
-############
-zinit atload'!source ~/.p10k.zsh' lucid nocd for \
-    romkatv/powerlevel10k
+# Move prompt to the bottom when zsh starts and on Ctrl+L.
+zstyle ':z4h:' prompt-at-bottom 'yes'
 
-# Annex
-zinit lucid light-mode for \
-    z-shell/z-a-patch-dl
+# Keyboard type: 'mac' or 'pc'.
+zstyle ':z4h:bindkey' keyboard  'mac'
 
-# OMZSH
-zinit wait lucid light-mode for \
-    OMZ::lib/key-bindings.zsh \
-    OMZ::lib/clipboard.zsh \
-    OMZ::lib/git.zsh \
-    OMZ::lib/completion.zsh \
-    OMZ::lib/directories.zsh
+# Mark up shell's output with semantic information.
+zstyle ':z4h:' term-shell-integration 'yes'
 
-# Binary
-zinit lucid wait light-mode as"program" from"gh-r" for \
-    mv"ripgrep* -> rg" \
-    pick"rg/rg" \
-      @BurntSushi/ripgrep \
-    atclone"cp -vf bat/autocomplete/bat.zsh _bat" \
-    atpull"%atclone" \
-    mv"bat* -> bat" pick"bat/bat" \
-      @sharkdp/bat \
-    atclone"cp -vf completions/exa.zsh _exa" \
-    atpull"%atclone" \
-    mv"bin/exa* -> exa" \
-      @ogham/exa
+# Right-arrow key accepts one character ('partial-accept') from
+# command autosuggestions or the whole thing ('accept')?
+zstyle ':z4h:autosuggestions' forward-char 'accept'
 
-# Fzf 
-zinit lucid wait light-mode as"program" for \
-    from"gh-r" \
-    id-as"junegunn/fzf-tmux-binary" \
-    dl"https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf" \
-      @junegunn/fzf \
-    pick"bin/fzf-tmux" \
-    multisrc"shell/*.zsh" \
-      @junegunn/fzf \
+# Recursively traverse directories when TAB-completing files.
+zstyle ':z4h:fzf-complete' recurse-dirs 'no'
 
-zinit wait lucid light-mode for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    Aloxaf/fzf-tab \
-    z-shell/fast-syntax-highlighting \
- blockf \
-    zsh-users/zsh-completions \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions
+# Enable direnv to automatically source .envrc files.
+zstyle ':z4h:direnv'         enable 'no'
+# Show "loading" and "unloading" notifications from direnv.
+zstyle ':z4h:direnv:success' notify 'yes'
 
-zinit wait lucid light-mode for \
-    Tarrasch/zsh-bd \
+# Enable ('yes') or disable ('no') automatic teleportation of z4h over
+# SSH when connecting to these hosts.
+zstyle ':z4h:ssh:example-hostname1'   enable 'yes'
+zstyle ':z4h:ssh:*.example-hostname2' enable 'no'
+# The default value if none of the overrides above match the hostname.
+zstyle ':z4h:ssh:*'                   enable 'no'
 
-##################
-# fzf-tab styles #
-##################
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# switch group using `,` and `.`
-zstyle ':fzf-tab:*' switch-group ',' '.'
+# Send these files over to the remote host when connecting over SSH to the
+# enabled hosts.
+zstyle ':z4h:ssh:*' send-extra-files '~/.nanorc' '~/.env.zsh'
 
-#################
-# Shell history #
-#################
-HISTFILE=${HOME}/.zsh_history
-SAVEHIST=10000
-HISTSIZE=10000
-setopt BANG_HIST                 # Treat the '!' character specially during expansion.
-setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
-setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
-setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
-setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
-setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
-setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
-setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+# Clone additional Git repositories from GitHub.
+#
+# This doesn't do anything apart from cloning the repository and keeping it
+# up-to-date. Cloned files can be used after `z4h init`. This is just an
+# example. If you don't plan to use Oh My Zsh, delete this line.
+z4h install ohmyzsh/ohmyzsh || return
 
-###########
-# Aliases #
-###########
-alias shutdown='sudo shutdown now'
-alias restart='sudo reboot'
-alias suspend='sudo pm-suspend'
+# Install or update core components (fzf, zsh-autosuggestions, etc.) and
+# initialize Zsh. After this point console I/O is unavailable until Zsh
+# is fully initialized. Everything that requires user interaction or can
+# perform network I/O must be done above. Everything else is best done below.
+z4h init || return
 
-alias grep="grep -n --color"
-alias ls="ls -h" 
+# Extend PATH.
+path=(~/bin $path)
 
-alias cp='cp -iv'
-alias mv='mv -iv'
-alias rm='rm -i'
+# Export environment variables.
+export GPG_TTY=$TTY
 
-# git
-alias ga='git add'
-alias gb='git branch'
-alias gbr='git branch -r'
-alias gc='git commit'
-alias gcln='git branch --merged | egrep -v "(^\*|master|main)" | xargs git branch -d'
-alias gco='git checkout'
-alias gd='git diff'
-alias gl='git log'
-alias glo='git log --pretty="oneline"'
-alias glol='git log --graph --oneline --decorate'
-alias gp='git push'
-alias gpl='git pull'
-alias gplo='git pull origin'
-alias gpo='git push origin'
-alias gr='git remote'
-alias grs='git remote show'
-alias gs='git status'
-alias gsh='git show'
-alias gtd='git tag --delete'
-alias gtdr='git tag --delete origin'
+# Source additional local files if they exist.
+z4h source ~/.env.zsh
 
-update() {
-  # Check if the cmd exists
-  # https://stackoverflow.com/a/677212/2563765
-  if command -v zinit >/dev/null 2>&1; then
-    zinit update
-  fi
-  if command -v brew >/dev/null 2>&1; then
-    brew update
-    brew outdated
-    brew upgrade
-  fi
-  if command -v npm >/dev/null 2>&1; then
-    npm install -g npm
-  fi
-}
+# Use additional Git repositories pulled in with `z4h install`.
+z4h source ohmyzsh/ohmyzsh/lib/clipboard.zsh
 
-# Active conda
-if [ -f "${HOME}/anaconda3/bin/activate" ]; then
-  source ${HOME}/anaconda3/bin/activate
-fi
+# Define key bindings.
+z4h bindkey undo Ctrl+/             # undo the last command line change
+z4h bindkey redo Option+/           # redo the last undone command line change
 
-# Add andorid sdk for expo
-if [ -d "${HOME}/Library/Android/sdk" ]; then
-  export ANDROID_SDK=${HOME}/Library/Android/sdk
-  export PATH=${HOME}/Library/Android/sdk/platform-tools:$PATH
-fi
+z4h bindkey z4h-cd-back    Shift+Left   # cd into the previous directory
+z4h bindkey z4h-cd-forward Shift+Right  # cd into the next directory
+z4h bindkey z4h-cd-up      Shift+Up     # cd into the parent directory
+z4h bindkey z4h-cd-down    Shift+Down   # cd into a child directory
 
-# Add flutter
-if [ -d "${HOME}/dev/flutter/bin" ]; then
-  export PATH=${HOME}/dev/flutter/bin:$PATH
-fi
+# Autoload functions.
+autoload -Uz zmv
+
+# Define functions and completions.
+function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
+compdef _directories md
+
+# Define named directories: ~w <=> Windows home directory on WSL.
+[[ -z $z4h_win_home ]] || hash -d w=$z4h_win_home
+
+# Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
+setopt glob_dots     # no special treatment for file names with a leading dot
+setopt no_auto_menu  # require an extra TAB press to open the completion menu
