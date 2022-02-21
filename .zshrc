@@ -66,6 +66,7 @@ export GPG_TTY=$TTY
 
 # Source additional local files if they exist.
 z4h source ~/.env.zsh
+z4h source ~/.aliases.zsh
 
 # Use additional Git repositories pulled in with `z4h install`.
 z4h source ohmyzsh/ohmyzsh/lib/clipboard.zsh
