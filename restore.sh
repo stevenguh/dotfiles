@@ -9,14 +9,17 @@ function restore_dotfiles() {
   function restore_rsync() {
     rsync \
       --exclude ".git/" \
+      --exclude ".gitattributes" \
+      --exclude ".github" \
+      --exclude ".gitignore" \
+      --exclude ".gitmodules" \
       --exclude ".DS_Store" \
       --include "/.**" \
       --exclude "*" \
-      --itemize-changes
       -ah --no-perms $1 ./ ~
   }
 
-  restore_rsync '--dry-run'
+  restore_rsync '--dry-run --itemize-changes'
 	read -p "Do you want to restore those files to your home? (y/n) " -n 1
 	echo ""
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
