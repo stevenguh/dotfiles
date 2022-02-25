@@ -4,7 +4,8 @@
 
 ```sh
 cd ~
-git clone https://github.com/stevenguh/dotfiles.git
+git clone --recurse-submodules --remote-submodules https://github.com/stevenguh/dotfiles.git
+cd dotfiles
 ```
 
 ## Restore
