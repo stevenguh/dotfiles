@@ -70,6 +70,7 @@ z4h source ~/.aliases.zsh
 
 # Use additional Git repositories pulled in with `z4h install`.
 z4h source ohmyzsh/ohmyzsh/lib/clipboard.zsh
+z4h source ohmyzsh/ohmyzsh/lib/completion.zsh
 
 # Define key bindings.
 z4h bindkey undo Ctrl+/             # undo the last command line change
