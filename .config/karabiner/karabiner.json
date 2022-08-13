@@ -117,7 +117,7 @@
                         ]
                     },
                     {
-                        "description": "Change caps_lock to right_control",
+                        "description": "Change caps_lock to right_control and esc if pressed alone",
                         "manipulators": [
                             {
                                 "from": {
@@ -133,12 +133,18 @@
                                         "key_code": "right_control"
                                     }
                                 ],
+                                "to_if_alone": [
+                                    {
+                                        "hold_down_milliseconds": 200,
+                                        "key_code": "escape"
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
                     },
                     {
-                        "description": "Change right_command to caps_lock if pressed alone.",
+                        "description": "Change right_command to caps_lock if pressed alone",
                         "manipulators": [
                             {
                                 "from": {
