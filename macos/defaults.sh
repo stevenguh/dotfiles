@@ -37,6 +37,9 @@ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
+# Use cmd + ctrl + click anywhere to drag window
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
 ###############################################################################
 # iTerm2
 ###############################################################################
