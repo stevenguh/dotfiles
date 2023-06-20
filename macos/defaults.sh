@@ -33,6 +33,9 @@ defaults write com.apple.finder ShowPathbar -bool true
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
+# When performing a search, search the current folder by default
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
 # Enable spring loading for directories
 defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 
